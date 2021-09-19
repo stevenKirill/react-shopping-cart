@@ -1,8 +1,8 @@
-import { ICart } from '../interfaces/Cart';
+import { IProduct } from '../interfaces/Cart';
 
 interface IService {
     baseUrl: string;
-    getProducts: () => Promise<ICart[]>
+    getProducts: () => Promise<IProduct[]>
 };
 
 class Services implements IService {

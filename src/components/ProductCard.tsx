@@ -1,15 +1,22 @@
 import React from 'react';
-import { ICart } from '../interfaces/Cart';
+import { IProduct } from '../interfaces/Cart';
+import { CardWrapper, Image, Title, Description, Price, CardButton } from './ProductCard.styles';
 
 interface Props {
-    item: ICart
+    item: IProduct
 };
 
-const ProductCard = ({ item: ICart }: Props) => {
+const ProductCard = (props: Props) => {
+    console.log(props,'=> props')
+    const { image, category, description, rating, title, price } = props.item;
     return (
-        <div>
-            
-        </div>
+        <CardWrapper>
+            <Image src={image}/>
+            <Title>{title}</Title>
+            <Description>{description}</Description>
+            <Price>${price}</Price>
+            <CardButton>Add to cart</CardButton>
+        </CardWrapper>
     )
 }
 

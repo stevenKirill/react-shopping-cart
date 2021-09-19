@@ -3,11 +3,12 @@ interface IRating {
     count: number;
 };
 
-export interface ICart {
+export interface IProduct {
     category: string;
     description: string;
     id: number;
     image: string;
     rating: IRating;
     title: string;
+    price: number;
 };
