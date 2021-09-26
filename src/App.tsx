@@ -4,19 +4,44 @@ import services from './api/service';
 import { IProduct } from './interfaces/Cart';
 import Loader from './components/Loader';
 //import ErrorIcon from '@mui/icons-material/Error';
-import { AppWrapper, EmptyComponent, LoaderWrapper } from './App.styles';
+import { AppWrapper, EmptyComponent, LoaderWrapper, StyledButton } from './App.styles';
 import ProductCard from './components/ProductCard';
 import { Drawer } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Cart from './components/Cart';
+import { Badge } from '@mui/material';
+import { AddShoppingCart } from '@material-ui/icons'
 
 import './App.css';
 
 function App() {
-  const [isOpened,setIsOpened] = useState<boolean>(false)
+  const [isOpened,setIsOpened] = useState<boolean>(false);
+  const [cartItems,setCartItems] = useState<IProduct[]>([]);
   const { data, isLoading, error } = useQuery<IProduct[]>('products',services.getProducts);
 
   console.log(data,'=> data')
+
+  const addProduct = (product: IProduct): void => {
+    setCartItems(prev => {
+      const current = prev.find(el => el.id === product.id);
+
+      if (current) {
+        return prev.map(el => {
+          el.id === product.id ? { ...el, amount: el.amount + 1 } : el;
+        })
+      } else {
+        return [...prev, { ...product, amount: 1 }]
+      }
+    })
+  };
+
+  const removeProduct = (id: number) => {
+
+  };
+
+  const countProducts = (): number => {
+    return cartItems.length;
+  };
   
   let component = null;
   if (isLoading) {
@@ -35,9 +60,9 @@ function App() {
         {
         data?.map((item: IProduct)  => {
           return (
-            <Grid key={item.id} xs={12} sm={4}>
-              <ProductCard item={item}/>
-            </Grid>
+              <Grid key={item.id} xs={12} sm={4}>
+                <ProductCard item={item} hadleAddProduct={addProduct}/>
+              </Grid>
           )
         })
         }
@@ -48,8 +73,17 @@ function App() {
   return (
     <AppWrapper>
       <Drawer anchor="right" open={isOpened} onClose={() => setIsOpened(false)}>
-        <Cart/>
+        <Cart
+          cartItems={cartItems}
+          addToCart={addProduct}
+          removeFromCart={removeProduct}
+        />
       </Drawer>
+      <StyledButton onClick={() => setIsOpened(true)}>
+      <Badge color="error" badgeContent={countProducts()}>
+        <AddShoppingCart/>
+      </Badge>
+      </StyledButton>
       {component}
     </AppWrapper>
   );

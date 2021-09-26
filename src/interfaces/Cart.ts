@@ -11,4 +11,5 @@ export interface IProduct {
     rating: IRating;
     title: string;
     price: number;
+    amount: number;
 };

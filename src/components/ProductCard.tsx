@@ -1,21 +1,25 @@
 import React from 'react';
 import { IProduct } from '../interfaces/Cart';
-import { CardWrapper, Image, Title, Description, Price, CardButton } from './ProductCard.styles';
+import { CardWrapper } from './ProductCard.styles';
+import { Button } from '@mui/material';
 
 interface Props {
-    item: IProduct
+    item: IProduct,
+    hadleAddProduct: (product: IProduct) => void;
 };
 
 const ProductCard = (props: Props) => {
-    console.log(props,'=> props')
-    const { image, category, description, rating, title, price } = props.item;
+    const { hadleAddProduct, item } = props;
+    const { image, description, title, price } = item;
     return (
         <CardWrapper>
-            <Image src={image}/>
-            <Title>{title}</Title>
-            <Description>{description}</Description>
-            <Price>${price}</Price>
-            <CardButton>Add to cart</CardButton>
+        <img src={image} alt={title} />
+        <div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+            <h3>${price}</h3>
+        </div>
+        <Button onClick={() => hadleAddProduct(item)}>Add to cart</Button>
         </CardWrapper>
     )
 }
