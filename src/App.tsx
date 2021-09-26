@@ -19,15 +19,13 @@ function App() {
   const [cartItems,setCartItems] = useState<IProduct[]>([]);
   const { data, isLoading, error } = useQuery<IProduct[]>('products',services.getProducts);
 
-  console.log(data,'=> data')
-
   const addProduct = (product: IProduct): void => {
     setCartItems(prev => {
       const current = prev.find(el => el.id === product.id);
 
       if (current) {
         return prev.map(el => {
-          el.id === product.id ? { ...el, amount: el.amount + 1 } : el;
+          return el.id === product.id ? { ...el, amount: el.amount + 1 } : el;
         })
       } else {
         return [...prev, { ...product, amount: 1 }]
@@ -36,7 +34,17 @@ function App() {
   };
 
   const removeProduct = (id: number) => {
-
+    setCartItems(prev => {
+      return prev.reduce((items, item) => {
+        if (item.id === id) {
+          if (item.amount === 1)
+            return items;
+          return [...items, { ...item, amount: item.amount - 1 }];
+        } else {
+          return [...items, item];
+        }
+      }, [] as IProduct[]);
+    })
   };
 
   const countProducts = (): number => {

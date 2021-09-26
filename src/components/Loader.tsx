@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 const Loader = () => {
     return (
         <Box>
-            <CircularProgress />
+            <CircularProgress/>
         </Box>
     );
 };

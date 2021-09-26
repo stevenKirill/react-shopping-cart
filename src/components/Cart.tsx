@@ -10,6 +10,12 @@ interface IProps {
 };
 
 const Cart: React.FC<IProps> = ({ cartItems, addToCart, removeFromCart }) => {
+    const sum = () => {
+        return cartItems.reduce((acc,curr) => {
+            return acc + (curr.price * curr.amount)
+        },0)
+    };
+
     return (
         <Wrapper>
             <h3>Your shopping cart</h3>
@@ -23,7 +29,7 @@ const Cart: React.FC<IProps> = ({ cartItems, addToCart, removeFromCart }) => {
                     />
                 )
             })}
-            <h2>Total: </h2>
+            <h2>Total: ${sum().toFixed()}</h2>
         </Wrapper>
     )
 }

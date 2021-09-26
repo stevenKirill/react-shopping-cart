@@ -13,7 +13,7 @@ const ProductCard = (props: Props) => {
     const { image, description, title, price } = item;
     return (
         <CardWrapper>
-        <img src={image} alt={title} />
+        <img src={image} alt={title}/>
         <div>
             <h3>{title}</h3>
             <p>{description}</p>
